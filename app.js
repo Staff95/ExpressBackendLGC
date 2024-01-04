@@ -294,7 +294,7 @@ app.post('/api/connexion', function(req, res){
             httpOnly:true,
         })
 
-        res.redirect("process.env.FRONTEND_URL");
+        res.redirect(process.env.FRONTEND_URL);
         // res.json("LOGGED IN");
         // res.render('UserPage', {data : user})
     })
