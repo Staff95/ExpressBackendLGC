@@ -123,30 +123,54 @@ app.post('/submit-contact', function(req, res){
 
 
 
-//Ajout d'un blog
-app.post('/addblog', upload.single('image'), function(req, res){
+//Ajout d'un blog image 
+// app.post('/addblog', upload.single('image'), function(req, res){
+
+//     const Data = new Blog({
+//         titre : req.body.titre,
+//         sousTitre : req.body.sousTitre,
+//         auteur : req.body.auteur,
+//         description : req.body.description,
+//         imageName : req.body.imageName
+//     })
+
+//     // Image obligatoire pour l'enregistrement d'un blog
+//     if(!req.files){
+//         res.status(400).json("No File Uploaded")
+//     }
+//     else{
+//         Data.save()
+//         .then(() =>{
+//             console.log("Blog saved");
+//             res.status(200).json({"result" : "Blog saved"})
+//             // res.redirect(process.env.FRONTEND_URL + '/allblogs/');
+//         })
+//         .catch(err =>console.error(err));
+//     }
+// });
+app.post('/addblog', function(req, res){
 
     const Data = new Blog({
         titre : req.body.titre,
         sousTitre : req.body.sousTitre,
         auteur : req.body.auteur,
         description : req.body.description,
-        imageName : req.body.imageName
+        // imageName : req.body.imageName
     })
 
     // Image obligatoire pour l'enregistrement d'un blog
-    if(!req.files){
-        res.status(400).json("No File Uploaded")
-    }
-    else{
+    // if(!req.files){
+    //     res.status(400).json("No File Uploaded")
+    // }
+    // else{
         Data.save()
         .then(() =>{
             console.log("Blog saved");
-            res.json("Blog saved")
+            res.status(201).json({"result" : "Blog saved"})
             // res.redirect(process.env.FRONTEND_URL + '/allblogs/');
         })
         .catch(err =>console.error(err));
-    }
+    // }
 });
 app.post('/uploadimage', upload.single('image'), function(req, res){
     if(!req.file){
@@ -217,6 +241,9 @@ app.get('/blog/:id', function(req, res){
     })
     .then((data)=>{
         res.json(data);
+    })
+    .catch((err)=>{
+        res.status(404).json({err:err});
     })
 });
 
@@ -315,3 +342,5 @@ app.get('/getJWT', function(req, res){
 var server = app.listen(5000, function() {
     console.log("Server listening on port 5000");
 });
+
+module.exports = app
